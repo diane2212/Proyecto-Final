@@ -1,0 +1,7 @@
+env
+.env
+__pycache__
+bd.sqlite3
+migrations
+.vscode
+/blog/media/*
