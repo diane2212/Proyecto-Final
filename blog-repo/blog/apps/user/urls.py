@@ -1,5 +1,8 @@
-from django.urls import render
-from blog.views import TemplateView
+from django.urls import path
+import apps.user.views as views
 
-class UserProfileView(TemplateView):
-    template_name = 
+app_name = "user"
+
+urlpatterns = [
+    path("users/profile/", views.UserProfileView.as_view(), name="user_profile"),
+]

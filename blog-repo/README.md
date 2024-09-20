@@ -75,7 +75,7 @@ ESTRUCTURA DEL PROYECTO
 │ │ │ │ ├── not_found.html
 │ │ │ │ ├── internal_error.html
 │ │ │ │ └── ...
-│ │ │ ├── includes/
+│ │ │ ├── Components/
 │ │ │ │ ├── base.html
 │ │ │ │ ├── footer.html
 │ │ │ │ ├── header.html

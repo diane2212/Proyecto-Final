@@ -1,6 +1,5 @@
-from django.shortcuts import render
-from blog.user import TemplateView
+from django.views.generic import TemplateView
 
 # Create your views here.
 class UserProfileView(TemplateView):
-    template_name =
+    template_name = "user/user_profile.html"
