@@ -12,3 +12,9 @@ from blog.views import TemplateView
 # Create your views here. crear una vista
 class UserProfileView(TemplateView):
     template_name = "user/user_profile.html"
+
+class UserLoginView(TemplateView):
+    template_name = "user/user_login.html"
+
+class UserSignupView(TemplateView):
+    template_name = "user/user_signup.html"

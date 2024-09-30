@@ -54,6 +54,8 @@ MIDDLEWARE = [
 
 #en donde esta ubicado nuestro url principal
 ROOT_URLCONF = 'blog.urls'
+#se informa que dentro de la carpeta user, vaya a la clase user
+AUTH_USER_MODEL = 'user.User'
 
 TEMPLATES = [
     {

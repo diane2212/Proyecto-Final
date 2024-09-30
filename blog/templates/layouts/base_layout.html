@@ -8,6 +8,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title_layout %}{% endblock title_layout %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+      tailwind.config = {
+         theme: {
+             extend: {
+                 colors: {
+                     clifforf: "#da373d",
+                    },
+                },
+            },
+        }
+    </script>
+    
     {% block extra_head_layout %}{% endblock extra_head_layout %}
         
 </head>
