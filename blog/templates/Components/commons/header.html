@@ -1,6 +1,6 @@
-<header class=" h-14 flex justify-center items-center text-white bg= orange-500">
+<header class=" h-14 flex justify-center items-center text-white bg-orange-500">
     <div 
-     class="container mx-4 md:mx-8 lg:mx-40 flex justify-between bg-red-500"
+     class="container mx-4 md:mx-8 lg:mx-40 flex justify-between items-center bg-red-500"
     >
      BLOG {% include "components/ui/navbar.html" %} 
     </div>
@@ -8,6 +8,11 @@
 
 {
 {% comment %}
+h-14= altura que tendra= 56px
+bg= color de fondo
+flex justify-center= posicion del texto, en este caso el centro, lo ubicas horizontalmente
+items-center = lo ubica verticalmente
+mx-4= margen x 
     la etiqueta includes sirve para algo estatico, por ejemplo en este caso, en la cabecera 
     del blog se quedaran estaticos los links que estan en navbar
 {% endcomment %}
