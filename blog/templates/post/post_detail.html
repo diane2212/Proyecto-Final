@@ -4,9 +4,26 @@
 {% block title %}Detalle | IA BLOG{% endblock title %}
 
 
-{% block content %}<h1>Detalle del post</h1>{% endblock content %}
+{% block content %}
+
+ <h3 class="text-2xl uppercase font-bold">{{ post.title }}</h3>
+   <p>{{ post.content }}</p>
+   <p>Publicado por: <strong class="font-bold">{{ post.author.username }}</strong></p>
+   <p>Fecha de publicación: {{ post.creation_date }}</p>
+   <p>Comentarios permitidos: {{ post.allow_comments|yesno:"Si,No" }}</p>
+   <div class="flex mt-8 gap-4">
+     <a class="bg-blue-500 text-white p-2 rounded-lg" href="{% url 'post:post_update' slug=post.slug %}">Editar post</a>
+     <a class="bg-red-500 text-white p-2 rounded-lg" href="{% url 'post:post_delete' slug=post.slug %}">Eliminar post</a>
+  </div>
+
+{% endblock content %}
 
 {% comment %}
+
+COLOCAR UN CONDICIONAL: SI SOS USUARIO REGISTRADO/COLABORADOR MOSTRAR BOTONES, SI NO, NO MOSTRAR. Y SOLO EL AUTOR PUEDE EDITAR SU POST
+EL ADMIN SI PUEDE VER LOS BOTONES
+SI SOS VISITANTE NO VES NADA
+SI SOS U.REGISTRADO PODES COMENTAR
     <!DOCTYPE html>
 <html lang="en">
 <head>
