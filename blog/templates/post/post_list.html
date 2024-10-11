@@ -1,43 +1,31 @@
-{% extends "layouts/general_layout.html" %}
+{% extends "layouts/post_layout.html" %}
 
 
 {% block title %}Lista | IA BLOG{% endblock title %}
 
 
 {% block content %}
-  <div class= "grid grid-cols-1 gap-6">
-      {% for post in object_list  %}
-          <div class= "bg-gray-800 text-white rounded-2x1 p-6">
-             <h3 class= "text-2x1 uppercase font-bold">{{post.title}}</h3>
-             <p>{{post.content}}</p>
-             <p> Publicado por: <strong class= "font-bold">{{post.author.username}}</strong></p>
-             <p> Fecha de publicacion: {{post.creation_date}}</p>
-             <p>Comentarios permitidos: {{ post.allow_comments|yesno:"Si,No" }}</p>
-             <div class= "flex gap-2 mt-8">
-                 <a class= "bg-red-500 text-white p-2 rounded-lg" href= "{% url 'posts:post_detail' slug=post.slug %} ">Ver Post</a>
-                 <a class= "bg-red-500 text-white p-2 rounded-lg" href= "{% url 'posts:post_delete' slug=post.slug %} ">Eliminar Post</a>
-             </div>
+ <div class="grid grid-cols-1 gap-6">
+    {% for post in object_list %}
+       <div class= "bg-gray-800 text-white rounded-2x1 p-6">
+          <h3 class= "text-2x1 uppercase font-bold">{{ post.title }}</h3>
+          <p>{{ post.content }}</h3>
+          <p>Fecha de publicacion: {{ post.creation_date }}</h3>
+          <p>Publicado por: <strong class="font-bold">{{ post.author }}</strong></h3>
+          <p>Comentarios permitidos: {{ post.allow_comments|yesno:"Si,No" }}</h3>
+          <div class="flex gap-2 mt-8">
+            <a 
+               class="bg-red-500 text-white p-2 rounded-lg" 
+               href="{% url 'post:post_detail' slug=post.slug %}"
+            >Ver post</a>
+            <a 
+               class="bg-red-500 text-white p-2 rounded-lg"
+               href="{% url 'post:post_delete' slug=post.slug %}"
+            >Eliminar Post</a>
           </div>
-      {% endfor %}
-    </div> 
+       </div>
+    {% endfor %}
+ </div>  
 {% endblock content %}
 
 
-
-
-
-{
-{% comment %}
-    <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BLOG</title>
-</head>
-<body>
-    <h1>Post Lista</h1>
-</body>
-</html>
-{% endcomment %}
-    }

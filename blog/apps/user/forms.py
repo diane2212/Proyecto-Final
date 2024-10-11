@@ -10,13 +10,8 @@ class RegisterForm(UserCreationForm):
   fields = ('username', 'email', 'alias', 'avatar')
 
 class LoginForm(AuthenticationForm):
-   username = forms.CharField( max_length=254,
-      widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Usuario'}),
-     # Django form trabaja con widgets
-     # Los widgets son los elementos que se renderizan en el HTML
-     # Pueden recibir atributos como clases, id, placeholder, etc
-    )
-   password = forms.CharField(
-          widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Contraseña'}),
-    )
+   username = forms.CharField( max_length=254, widget=forms.TextInput(
+        attrs={'class': 'bg-blue-500', 'placeholder': 'Usuario'}))
+   password = forms.CharField(widget=forms.PasswordInput(
+        attrs={'class': 'bg-blue-500', 'placeholder': 'Contraseña'}))
 

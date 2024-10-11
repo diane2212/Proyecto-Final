@@ -1,22 +1,23 @@
 <nav>
-  <ul class="flex gap-4">
-    <li><a href="{% url 'home' %}">Inicio</a></li>
+ <ul class="flex gap-4">
     {% if user.is_authenticated %}
-     <!-- Mostrar opciones si el usuario está autenticado -->
+      {% if user.is_collaborator %}
+       <li><a href="{% url 'post:post_create' %}">Publicar</a></li>
+      {% endif %}
       <li><a href="{% url 'user:user_profile' %}">Perfil</a></li>
       <li>
-       <form method="POST" action="{% url 'user:auth_logout' %}">
-         {% csrf_token %}
-         <button type="submit">Cerrar sesión</button>
+        <form method="post" action="{% url 'user:auth_logout' %}">
+          {% csrf_token %}
+          <button type="submit">Cerrar sesión</button>
        </form>
      </li>
-   {% else %}
-     <!-- Mostrar opciones si el usuario NO está autenticado -->
-     <li><a href="{% url 'user:auth_login' %}">Iniciar sesión</a></li>
-     <li><a href="{% url 'user:auth_register' %}">Registrarse</a></li>
+    {% else %}
+      <li><a href="{% url 'user:auth_login' %}">Iniciar sesión</a></li>
+      <li><a href="{% url 'user:auth_register' %}">Registrarse</a></li>
    {% endif %}
   </ul>
 </nav>
+
 
 {
 {% comment %}

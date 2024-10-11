@@ -17,5 +17,21 @@ class User(AbstractUser):
     alias = models.CharField(max_length=30, blank=True)
     avatar = models.ImageField(upload_to= get_avatar_filename, default="user/default/avatar_default.png")
     
+    @property
+    def is_collaborator(self):
+      return self.groups.filter(name='Collaborators').exists()
+
+    @property
+    def is_admin(self):
+      return self.groups.filter(name='Admins').exists()
+
+    @property
+    def is_registered(self):
+     return self.groups.filter(name='Registered').exists()
+     #Para poder definir estas propiedades, es necesario definir los grupos Collaborators, Admins y
+     #Registered en el panel de administración de Django, o mediante un signal en el archivo
+     #signals.py de la app User, como lo hicimos en clases anteriores. 
+
+
 
 
