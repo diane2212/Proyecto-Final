@@ -1,0 +1,21 @@
+{% extends 'layouts/auth_layout.html' %}
+
+{% block title %}Registrarse | BLOG IA{% endblock title %}
+
+{% block content %}
+<div class=" flex flex-col justify-center items-center">
+  <h1 class=" mt-6 text-center text-2xl mb-6">Registrarse</h1>
+  <form class="flex flex-col max-w-[400px] gap-4" method="post" enctype="multipart/form-data">
+    {% csrf_token %} 
+    <div class= "flex flex-col">
+      <p class= "mt-6 font-bold text-lg">{{ form.username.label_tag }} {{ form.username }}</p>
+      <p class=" mt-6 font-bold text-lg">{{ form.alias.label_tag }}{{ form.alias }}</p>
+      <p class=" mt-6 font-bold text-lg">{{ form.email.label_tag }}{{ form.email}}</p>
+      <p>Avatar<input class= "mt-8" type="file" name="images" multiple /></p>
+   </div>
+   <button type="submit" class=" mt-10 w-full bg-green-400 py-2 rounded-lg">
+       Confirmar
+   </button>
+  </form>
+</div>
+{% endblock content %}

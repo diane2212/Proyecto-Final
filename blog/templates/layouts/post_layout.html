@@ -1,0 +1,27 @@
+{% extends "layouts/base_layout.html" %}
+
+{% block title_layout %}
+  {% block title %}
+    BLOG
+  {% endblock title %}
+{% endblock title_layout %}
+
+
+
+{% block extra_head_layout %}
+
+ {% block extra_head %}{% endblock extra_head %}
+    
+{% endblock extra_head_layout %}
+
+{% load static %}
+
+{% block content_layout %}
+ {% include "components/commons/header.html" %}
+  <main class=" bg-fixed bg-cover bg-center w-screen min-h-[calc(100dvh-10px)]" style="background-image:url('{% static 'assets\back-ground.png' %}');}">
+    <div class="container max-w-4xl mx-auto h-auto  rounded-3xl bg-gray-100 bg-opacity-20">
+      {% block content %}{% endblock content %}  
+    </div>
+  </main>
+ {% include "components/commons/footer.html" %}
+{% endblock content_layout %}

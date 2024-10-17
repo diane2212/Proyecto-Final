@@ -1,0 +1,15 @@
+{% extends 'layouts/post_layout.html' %}
+
+{%  block title %} Eliminar Post| BLOG IA {% endblock title %}
+
+
+
+{% block content %} 
+  <h2>¿Estás seguro de que deseas eliminar este post?</h2>
+  <form method="post">
+     {% csrf_token %}
+     <button type="submit">Sí, eliminar</button>
+ </form>
+
+<a href="{% url 'post:post_detail' slug=object.slug %}">Cancelar</a>
+{% endblock content %}
