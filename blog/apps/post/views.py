@@ -11,7 +11,7 @@ class PostListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = 'post/post_list.html'
     context_object_name = 'posts'
 
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Post
     form_class = NewPostForm
     template_name = 'post/post_create.html'
