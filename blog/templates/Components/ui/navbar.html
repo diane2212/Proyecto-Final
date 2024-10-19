@@ -2,18 +2,18 @@
  <ul class="flex gap-4 ">
     {% if user.is_authenticated %}
       {% if user.is_collaborator %}
-       <li><a class= "text-white" href="{% url 'post:post_create' %}">Publicar</a></li>
+       <button class= "text-black bg-orange-500 rounded-lg" href="{% url 'post:post_create' %}">Publicar</a></li>
       {% endif %}
       <li><a class="text-white" href="{% url 'user:user_profile' %}">Perfil</a></li>
       <li>
         <form method="post" action="{% url 'user:auth_logout' %}">
           {% csrf_token %}
-          <button class="text-white" type="submit">Cerrar sesión</button>
+          <button class="bg-red-500 text-black rounded-lg" type="submit">Cerrar sesión</button>
        </form>
      </li>
     {% else %}
       <li><a class="text-white" href="{% url 'user:auth_login' %}">Iniciar sesión</a></li>
-      <li><a class= "text-white" href="{% url 'user:auth_register' %}">Registrarse</a></li>
+      <button class= "bg-white text-black text-md font-bold rounded-lg py-1 px-2" href="{% url 'user:auth_register' %}">Registrate</button>
    {% endif %}
   </ul>
 </nav>

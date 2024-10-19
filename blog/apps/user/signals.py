@@ -26,33 +26,33 @@ def create_groups_and_permissions(sender, instance, created, **kwargs):
             #CREAMOS GRUPO DE USUARIOS REGISTRADOS
             registered_group, created = Group.objects.get_or_create(name="Registered")
             registered_group.permissions.add(
-            view_post_permission,
-            add_post_permission,
-            change_post_permission,
-            delete_post_permission,
-            # TODO: tengo que ver que permisos voy a dejar
-            view_comment_permission,
-            add_comment_permission,
-            change_comment_permission,
-            delete_comment_permission
+                view_post_permission,
+                add_post_permission,
+                change_post_permission,
+                delete_post_permission,
+                # TODO: tengo que ver que permisos voy a dejar
+                view_comment_permission,
+                add_comment_permission,
+                change_comment_permission,
+                delete_comment_permission
             )
            #CREAMOS GRUPO DE COLABORADORES
             registered_group, created = Group.objects.get_or_create(name="Collaborators")
             registered_group.permissions.add(
-            view_post_permission,
-            add_post_permission,
-            change_post_permission,
-            delete_post_permission,
-            # TODO: tengo que ver que permisos voy a dejar
-            view_comment_permission,
-            add_comment_permission,
-            change_comment_permission,
-            delete_comment_permission
+                view_post_permission,
+                add_post_permission,
+                change_post_permission,
+                delete_post_permission,
+                # TODO: tengo que ver que permisos voy a dejar
+                view_comment_permission,
+                add_comment_permission,
+                change_comment_permission,
+                delete_comment_permission
             )
             #CREAMOS GRUPO DE ADMINISTRADORES (tiene todos los permisos, ver)
             registered_group, created = Group.objects.get_or_create(name="Admins")
             registered_group.permissions.add(
-            registered_group.permissions.set(Permission.objects.all())
+                registered_group.permissions.set(Permission.objects.all())
             )
 
         except ContentType.DoesNotExist:

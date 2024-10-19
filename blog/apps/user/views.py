@@ -16,16 +16,16 @@ class RegisterView(CreateView):
  
    def form_valid(self, form):
      # Llama a la función form_valid de la clase padre y guarda el usuario
-       response = super().form_valid(form)
+      response = super().form_valid(form)
 
 
      # Asignar el grupo Registered al usuario recién creado
-       registered_group = Group.objects.get(name='Registered')
-       self.object.groups.add(registered_group)
+      registered_group = Group.objects.get(name='Registered')
+      self.object.groups.add(registered_group)
      # En caso de ser necesario se le puede asignar explicitamente los permisos del grupo al usuario
      # for permission in registered_group.permissions.all():
      # self.object.user_permissions.add(permission)
-       return response
+      return response
 #una view para iniciar sesion
 class UserLoginView(LoginViewDjango):
    template_name = 'auth/auth_login.html'
@@ -33,11 +33,13 @@ class UserLoginView(LoginViewDjango):
 
    def get_success_url(self):
     return reverse_lazy('home')
+   
 #view para cerrar sesion
 class LogoutView(LogoutViewDjango):
  
    def get_success_url(self):
      return reverse_lazy('home')
-
+#registro de nuevos usuarios
 class UserSignupView(TemplateView):
     template_name = "user/user_signup.html"
+    pass

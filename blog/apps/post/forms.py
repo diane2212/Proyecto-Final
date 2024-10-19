@@ -48,6 +48,7 @@ class NewPostForm(PostForm):
        return post
     
 class UpdatePostForm(PostForm):
+
    image = forms.ImageField(required=False)
      
    def __init__(self, *args, **kwargs):
@@ -82,20 +83,22 @@ class CommentForm(forms.ModelForm):
       fields= ['content']
 
       labels= {
-         'content': 'Dejanos tu opinion!'
+         'content': ''
       }
       
       widgets= {
-         'content': forms.Textarea(attrs={'placeholder': 'Escribe un comentario...', 
+         'content': forms.Textarea(attrs={'placeholder': '  Escribe un comentario...', 
                                           'class': 'w-50 inline-block','rows': 1,
                                             'style': 'resize:none; border-radius: 10px; box-sizing: border-box; overflow-x:hidden;',
                                              'oninput': 'this.style.height= "";this.style.height=this.scrollHeight+"px";'})
       }
 
 class PostFilterForm(forms.Form):
-   search_query = forms.CharField(required= False,widget=forms.TextInput(attrs={'placeholder': 'Buscar...', 'class': 'w-full p-2'}))
-   order_by= forms.ChoiceField(required=False,
+   search_query = forms.CharField(required= False,widget=forms.TextInput(attrs={'placeholder': '  Buscar...', 'class':'bg-gray-100' 'w-full sm:w-[400px]',
+                                                                                 'style': 'border-radius: 10px'}))
+   order_by= forms.ChoiceField( required=False,
       choices=(
+       ('', 'Ordenar por'),
        ('-creation_date', 'Mas reciente'),
        ('creation_date', 'Mas antiguo'),
        ('-comments_count', 'Mas comentado'),
@@ -103,6 +106,18 @@ class PostFilterForm(forms.Form):
        ('title', 'Titulos (A-Z)'),
        ('-title', 'Titulos (Z,A)')
       ),
-       widget=forms.Select(attrs={'class': 'w-full p-2'})
+       widget=forms.Select(attrs={'class':'bg-gray-100' 'w-full' 'p-2',  'style': 'border-radius: 10px' })
    )
-   category=forms.ModelChoiceField(queryset= Category.objects.all(), required= False)  
+   category= forms.ChoiceField(required= False,
+      choices=(
+       ('', 'Filtrar por'),
+       ('category', 'Tragos Directos'),
+       ('category', 'Tragos Batidos'),
+       ('category', 'Tragos Refrescados'),
+       ('category', 'Tragos Licuados'),
+       ('category', 'Tragos Macerados'),
+       ('category', 'Tragos Aperitivos'),
+       ('category', 'Energizantes'),
+      ),
+       widget=forms.Select(attrs={'class':'bg-gray-100' 'w-full' 'p-2',  'style': 'border-radius: 10px' })
+   )  

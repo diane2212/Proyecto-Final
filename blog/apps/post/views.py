@@ -17,16 +17,11 @@ class PostListView(ListView):
         # Anotamos la cantidad de comentarios en cada post
         search_query = self.request.GET.get('search_query', '')
         order_by = self.request.GET.get('order_by', '-creation_date')
-        category= self.request.GET.get('category', '')
 
         # Filtramos por título o autor si se proporciona una búsqueda
         if search_query:
            queryset = queryset.filter(title__icontains=search_query)
            queryset.filter(author__username__icontains=search_query)
-
-        if category:
-            queryset=queryset.filter(category=category)
-            
         return queryset.order_by(order_by)
     
        

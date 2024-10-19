@@ -1,58 +1,56 @@
 {% extends "layouts/post_layout.html" %}
 
 
-{% block title %}Detalle | IA BLOG{% endblock title %}
-
-
-{% block content %}
-{% if active_images %}
- <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-    {% for img in active_images %}
-    <a href= "{{ img.image.url }}" target="_blank">
-      <img
-       src= "{{ img.image.url }}" 
-       alt= "Portada del post" 
-       class= "w-[400px] object-cover aspect-[10/9]" >
-    </a>
-    {% endfor %}
- </div>
-{% endif %}
+{% block title %}Detalle | MiXDRiNKs {% endblock title %}
 
 {% load static %}
+{% block content %}
 
-<div>
-  <h3 class= "text-2xl uppercase font-bold border-b border-black">{{ post.title }}</h3>
-  <div class= "mt-4 max-w-xs ml-0 flex flex-wrap justify-start items-center gap-2">
-    <img class= "icon-rec w-8 h-8" src= "{% static 'assets\reloj.png' %}" alt= "Tiempo de preparacion">
-    <span>{{ post.time }}</span>
-    <img class= "icon-rec w-8 h-8" src= "{% static 'assets\categorias.png' %}" alt="Categoria">
-    <span>{{post.category}}</span>
+ <div class=" flex flex-col w-full">
+   {% if active_images %}
+     <div class="grid grid-cols-1">
+       {% for img in active_images %}
+         <a href= "{{ img.image.url }}" target="_blank">
+           <img
+           src= "{{ img.image.url }}" 
+           alt= "Portada del post" 
+           class= "w-[300px] object-cover aspect-[10/9]" >
+         </a>
+       {% endfor %}
+     </div>
+    {% endif %}
+   <h3 class= "ml-4 mt-6 text-2xl uppercase font-bold border-b border-black">{{ post.title }}</h3>
+   <div class= "flex justify start ml-4 mt-4 items-center gap-2">
+     <img class= "icon-rec w-8 h-8" src= "{% static 'assets\reloj.png' %}" alt= "Tiempo de preparacion"/><span class="whitespace-nowrap">{{ post.time }}</span>
+     <img class= "icon-rec w-8 h-8" src= "{% static 'assets\categorias.png' %}" alt="Categoria"/>{{post.category}}
+   </div>
+
+   <div class="ml-4 mt-12">
+     {{ post.content }}
+   </div>
+
+
+ <div class= "flex justify-center items-center mt-12">
+   <p>Publicado por: <strong class="font-bold">{{ post.author.username }}</strong></p>
+   <p class="ml-2">Fecha de publicación: {{ post.creation_date }}</p>
+ </div>
+ {% if user.is_superuser or user.is_admin or user.is_collaborator %}
+ <div class="flex justify-center items-center mt-4 gap-4">
+   <a 
+     class="bg-blue-500 h-6 text-white px-2 rounded-lg text-sm" 
+     href="{% url 'post:post_update' slug=post.slug %}"
+   >Editar post</a>
+   <a 
+     class="bg-red-500 h-6 text-white px-2 rounded-lg text-sm" 
+     href="{% url 'post:post_delete' slug=post.slug %}"
+   >Eliminar post</a>
   </div>
-</div>
-
-<div class= "mt-8 text-left border-1 border-black px-2 py-1">
-  <span>{{ post.content }}</span>
-</div>
-
-<div class= "mt-20 ml-2 bg-gray-200 inline-block rounded">
-  <p>Publicado por: <strong class="font-bold">{{ post.author.username }}</strong></p>
-  <p>Fecha de publicación: {{ post.creation_date }}</p>
-</div>
-<div class="flex mt-8 gap-4">
-  <a 
-    class="bg-blue-500 text-white p-2 rounded-lg text-sm" 
-    href="{% url 'post:post_update' slug=post.slug %}"
-  >Editar post</a>
-  <a 
-    class="bg-red-500 text-white p-2 rounded-lg text-sm" 
-    href="{% url 'post:post_delete' slug=post.slug %}"
-  >Eliminar post</a>
-</div>
+ {% endif %}
 
 
 
-{% if post.comments.count > 0 %}
-  <ul>
+ {% if post.comments.count > 0 %}
+    <ul>
       {% for comment in post.comments.all %}
 
        
@@ -60,37 +58,37 @@
          <form method="post" action="{% url 'post:comment_update' comment.id %}" class= "mb-8">
            {% csrf_token %}
            <div class= " mt-20 flex flex-col border rounded">{{ edit_comment_form.content.label_tag }} {{ edit_comment_form.content }}</div>
-           <button type="submit">Actualizar</button>
+           <button class= "text-blue-500" type="submit">Actualizar</button>
            <a href="{% url 'post:post_detail' post.slug %}" class="text-red-500">Cancelar</a>
          </form>
         {% else %}
-          <li class= "mt-4 mb-8 border-t border-gray">
-           <p class= "mt-2 ml-2 bg-gray-200 inline-block rounded">{{ comment.content }}</p>
-           <p class= "mt-2 ml-2 text-xs">Escrito por {{ comment.author.username }} el {{ comment.creation_date }}
+          <li class= "mt-4 mb-8 border-t border-gray-600">
+           <p class= "mt-2 ml-2 bg-gray-600 inline-block rounded">{{ comment.content }}</p>
+           <p class= "mt-2 ml-2 text-xs">Escrito por {{ comment.author.username }} 
              <a href= "?edit_comment={{comment.id}}" class="text-blue-500">Editar</a>
            </p>
          </li>
        {% endif %}
         
       {% endfor %}
-  </ul>
-{% endif %}
+    </ul>
+  {% endif %}
 
-{% if user.is_authenticated %}
+ {% if user.is_authenticated %}
   {% load static %}
   <form method="post" action="{% url 'post:comment_create' post.slug %}">
     {% csrf_token %}
-    <div class="flex flex-row items-center mt-8 ">{{ add_comment_form.content.label_tag }} {{ add_comment_form.content}}
+    <div class="flex flex-row items-center mt-8 ml-2 ">{{ add_comment_form.content.label_tag }} {{ add_comment_form.content}}
       <button type="submit" class="flex bg-white p-2 ml-2 rounded-lg">
-        <img class= "w-4 h-4" src="{% static 'assets\enviar.png' %}" alt="icono de enviar">
+        <img class= "w-2 h-2" src="{% static 'assets\enviar.png' %}" alt="icono de enviar">
      </button>
     </div>
   </form>
-{% else %}
+ {% else %}
   <p>
-    <a href="{% url 'user:auth_login' %}" class= "hover:text-blue-500">Inicia sesion </a> para agregar un comentario.
+    <a href="{% url 'user:auth_login' %}" class= "text-blue-500">Inicia sesion </a> para agregar un comentario.
   </p>
-{% endif %}
+ {% endif %}
 
 
 
