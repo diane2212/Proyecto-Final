@@ -5,11 +5,62 @@ from apps.post.models import Post, PostImage, Comment
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin 
+from django.db.models import Count
 
 class PostListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Post
     template_name = 'post/post_list.html'
     context_object_name = 'posts'
+    paginate_by = 10    
+
+    def get_queryset(self): 
+            queryset = Post.objects.all().annotate(comments_count=Count('comments')) # Anotamos la cantidad de comentarios en cada post  
+            search_query = self.request.GET.get('search_query', '')
+            order_by = self.request.GET.get('order_by', '-creation_date')
+            category = self.request.GET.get('category')
+
+            # Filtramos por título o autor si se proporciona una búsqueda 
+            if search_query: 
+                queryset = queryset.filter(title__icontains=search_query) | queryset.filter(author__username__icontains=search_query)
+            # Filtramos por categoria seleccionada
+            if category:
+                queryset = queryset.filter(category_id=category)
+
+            return queryset.order_by(order_by)
+
+    def get_context_data(self, **kwargs): 
+        context = super().get_context_data(**kwargs) 
+        
+        context['filter_form'] = PostFilterForm(self.request.GET)  # Pasamos el formulario de filtro al contexto
+
+        # Manejamos la paginación 
+        if context.get('is_paginated', False): 
+            query_params = self.request.GET.copy() 
+            query_params.pop('page', None)
+
+            pagination = {} 
+            page_obj = context['page_obj'] 
+            paginator = context['paginator']
+
+            # Usamos number para obtener el número de la página actual 
+            if page_obj.number > 1: 
+                pagination['first_page'] = f'?{query_params.urlencode()}&page={paginator.page_range[0]}'
+
+            # Usamos has_previous para saber si hay una página anterior 
+            if page_obj.has_previous(): 
+                pagination['previous_page'] = f'?{query_params.urlencode()}&page={page_obj.number - 1}'
+
+            # Usamos has_next para saber si hay una página siguiente 
+            if page_obj.has_next(): 
+                pagination['next_page'] = f'?{query_params.urlencode()}&page={page_obj.number + 1}'
+
+            # Usamos num_pages para obtener el número total de páginas 
+            if page_obj.number < paginator.num_pages: 
+                pagination['last_page'] = f'?{query_params.urlencode()}&page={paginator.num_pages}'
+            
+            context['pagination'] = pagination
+        
+        return context
 
 class PostCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Post
