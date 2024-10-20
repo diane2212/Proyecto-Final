@@ -1,4 +1,3 @@
-<!-- blog\templates\post\post_detail.html --> 
 {% extends 'layouts/post_layout.html' %} 
 
 {% block content %}
@@ -19,16 +18,38 @@
 </p>
 <p>Fecha de publicación: {{ post.creation_date }}</p>
 <p>Comentarios permitidos: {{ post.allow_comments|yesno:"Si,No" }}</p>
-<div class="flex mt-8 gap-4"> 
-    <a 
-        class="bg-blue-500 text-white p-2 rounded-lg" 
-        href="{% url 'post:post_update' slug=post.slug %}" 
-        >Editar post</a> 
-    <a 
-        class="bg-red-500 text-white p-2 rounded-lg" 
-        href="{% url 'post:post_delete' slug=post.slug %}" 
-        >Eliminar post</a>
-</div>
+
+{% if post.category  %}
+    <p>Categoría: {{ post.category.title }} </p>
+{% else %}
+   <p> Categoría: "Sin definir" </p>   
+{% endif %}
+    
+<div class="flex mt-8 gap-4">
+    {% if user.is_superuser or user.is_admin %}
+        <a 
+            class="bg-red-500 text-white p-2 rounded-lg" 
+            href="{% url 'post:post_delete' slug=post.slug %}" 
+            >Eliminar post</a>
+        {% if user == post.author %}
+          <a 
+            class="bg-blue-500 text-white p-2 rounded-lg" 
+            href="{% url 'post:post_update' slug=post.slug %}" 
+            >Editar post</a>   
+        {% endif %}      
+    {% elif user.is_collaborator %}
+        {% if user == post.author %}
+           <a 
+            class="bg-blue-500 text-white p-2 rounded-lg" 
+            href="{% url 'post:post_update' slug=post.slug %}" 
+            >Editar post</a>
+           <a 
+            class="bg-red-500 text-white p-2 rounded-lg" 
+            href="{% url 'post:post_delete' slug=post.slug %}" 
+            >Eliminar post</a>     
+        {% endif %}           
+    {% endif %}
+</div>    
 <h4 class="mt-8 mb-4">Comentarios</h4>
 
 {% if post.comments.count %}
@@ -52,18 +73,18 @@
             </form>
             {% else %} 
                 <!-- el contenido del comentario --> 
-                <li class="mb-8">
+            <li class="mb-8">
                   <p>{{ comment.content }}</p>
                   <small>Escrito por {{ comment.author.username }} el {{ comment.creation_date }}</small>
                 {% if comment.author == user %}
                   <a href="?edit_comment={{ comment.id }}" class="text-blue-500">Editar</a>
                   <a href="?delete_comment={{ comment.id }}" class="text-red-500">Eliminar</a>
-                {% elif user.is_collaborator and post.author == user and not comment.author.is_admin and not comment.author.is_superuser or user.is_superuser 
-                    or user.is_admin %}
+                {% elif user.is_collaborator and post.author == user and not comment.author.is_admin and not comment.author.is_superuser or user.is_admin or user.is_superuser %}
                 <a href="?delete_comment={{ comment.id }}" class="text-red-500">Eliminar</a>   
+                
                 {% endif %} 
-            {% endif %}
-                </li>    
+            </li> 
+            {% endif %}        
     {% endfor %}
     </ul>
 {% else %}
@@ -81,15 +102,9 @@
     <button type="submit" class="bg-blue-500 text-white p-2 rounded-lg">Agregar Comentario</button>
 
 {% else %} 
-    <p> <a href="{% url 'user:auth_login' %}" class="hover:text-blue-500">Inicia sesion</a> para agragar un comentario
+    <p> <a href="{% url 'user:auth_login' %}?next={{ request.path }}" class="hover:text-blue-500">Inicia sesion</a> para agragar un comentario
     </p>
-{% endif %}
-
-    
-
-{% comment %}
-    <div></div>
-{% endcomment %}     
+{% endif %}    
 {% endblock content %}
 
-{% block title %}Post Detail{%endblock title %}
+{% block title %}Detalle del Post{%endblock title %}
