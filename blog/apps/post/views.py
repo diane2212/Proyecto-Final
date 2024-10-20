@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin 
 from django.db.models import Count
 
-class PostListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+class PostListView(ListView):
     model = Post
     template_name = 'post/post_list.html'
     context_object_name = 'posts'
