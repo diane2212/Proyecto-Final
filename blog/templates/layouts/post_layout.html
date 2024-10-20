@@ -1,8 +1,7 @@
-<!-- blog\templates\layouts\post_layout.html --> 
 {% extends 'layouts/base_layout.html' %} 
 
 {% block title_layout %} 
-    {% block title %}IA | BLOG{% endblock title %} 
+  {% block title %} MixDrinks 🍹{% endblock title %} 
 {% endblock title_layout %} 
 
 {% block extra_head_layout %} 
@@ -15,5 +14,6 @@
     <div class="container mx-4 md:mx-8 lg:mx-40 py-10"> 
       {% block content %}{% endblock content %} 
     </div> 
-  </main> 
+  </main>
+   {% include 'components/common/footer.html' %} 
 {% endblock content_layout %}
