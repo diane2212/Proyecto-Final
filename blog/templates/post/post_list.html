@@ -1,0 +1,63 @@
+{% extends "layouts/post_layout.html" %}
+
+
+{% block title %}Posts |MiXDRiNKs {% endblock title %}
+
+
+{% block content %}
+ 
+ <div class="mt-12 ">
+    <form method="get" class=" flex justify-center items-center flex-wrap sm:flex-nowrap  ">
+       <div class="mt-4 ml-6 w-full w-auto">
+          {{ filter_form.search_query }}
+          {{ filter_form.order_by }}
+           {{ filter_form.category }}
+          <button type="submit" class="ml-6 mt-4 px-2 h-6 bg-blue-500 text-white rounded-lg">Buscar</button>
+        </div>
+    </form>
+    <div class="grid grid-cols-3 gap-2">
+       {% for post in object_list %}
+          <div class= "mt-8 ml-4 bg-gray-300 rounded-2xl p-6">
+             <h3 class= "text-2x1 uppercase font-bold border-b border-black">{{ post.title }}</h3>
+             <p>Fecha de publicacion: {{ post.creation_date }}</h3>
+             <p>Publicado por: <strong class="font-bold">{{ post.author }}</strong></h3>
+              {% if post.category  %}
+                <p>Categoría: {{ post.category.title }} </p>
+              {% else %}
+                <p> Categoría: "Sin definir" </p>   
+              {% endif %}
+               <div class="flex gap-2 mt-8">
+                  <a 
+                     class="bg-blue-500 text-white text-xs p-2 rounded-lg" 
+                     href="{% url 'post:post_detail' slug=post.slug %}"
+                  >Ver post</a>
+                  {% if user.is_superuser or user.is_admin or user.is_collaborator %}
+                    <a 
+                       class="bg-red-500 text-white text-xs p-2 rounded-lg"
+                       href="{% url 'post:post_delete' slug=post.slug %}"
+                    >Eliminar Post</a>
+                  {% endif %}
+               </div>
+          </div>
+        {% endfor %}
+      </div>
+ </div>  
+   <!-- Controles de paginación -->
+  <div class="mt-4">
+      {% if is_paginated %}
+         <div class="flex justify-center items-center gap-2">
+            {% if pagination.previous_page %}
+               <a href="{{ pagination.previous_page }}" class="w-16 text-xs text-center bg-blue-500 text-white p-1 rounded-md">Anterior</a>
+            {% else %}
+               <span class="w-16 text-xs text-center bg-gray-500 text-white p-1 rounded-md">Anterior</span>
+            {% endif %}
+            <span class="w-10 text-center text-lg font-semibold">{{ page_obj.number }}</span>
+            {% if pagination.next_page %}
+               <a href="{{ pagination.next_page }}" class="w-16 text-xs text-center bg-blue-500 text-white p-1 rounded-md">Siguiente</a>
+            {% else %}
+               <span class="w-16 text-xs text-center bg-gray-500 text-white p-1 rounded-md">Siguiente</span>
+            {% endif %}
+       </div>
+     {% endif %}
+ </div>
+{% endblock content %}
