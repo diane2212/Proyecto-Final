@@ -1,9 +1,19 @@
 ESTRUCTURA DEL PROYECTO
 
 ```
-├── blog-repo/					<--- Carpeta del Repositorio
-│ ├── blog/					    <--- Carpeta del proyecto Django
-│ │ ├── apps/					<--- Aplicaciones Django
+├── PROYECTO FINAL/					<--- Carpeta del Repositorio
+│ ├── blog/					    
+│ │ ├── apps/	
+│ │ │ ├── contacto/
+│ │ │ │ ├── __pycache__/	    **Ignorada en el .gitignore**
+│ │ │ │ ├── __init__.py
+│ │ │ │ ├── admin.py
+│ │ │ │ ├── apps.py
+│ │ │ │ ├── forms.py
+│ │ │ │ ├── models.py
+│ │ │ │ ├── tests.py
+│ │ │ │ ├── urls.py
+│ │ │ │ └── views.py	
 │ │ │ ├── post/
 │ │ │ │ ├── __pycache__/	    **Ignorada en el .gitignore**
 │ │ │ │ ├── migrations/		    **Ignorada en el .gitignore**
@@ -20,47 +30,55 @@ ESTRUCTURA DEL PROYECTO
 │ │ │ │ ├── __init__.py
 │ │ │ │ ├── admin.py
 │ │ │ │ ├── apps.py
+│ │ │ │ ├── forms.py
 │ │ │ │ ├── models.py
+│ │ │ │ ├── signals.py
 │ │ │ │ ├── tests.py
 │ │ │ │ ├── urls.py
 │ │ │ │ └── views.py
 │ │ │ └── ...
 │ │ ├── blog/
 │ │ │ ├── __pycache__/		    **Ignorada en el .gitignore**
-│ │ │ ├── configurations/	    <--- Configuraciones django (opcional)
+│ │ │ ├── configurations/	    <--- Configuraciones django 
 │ │ │ │ ├── __pycache__/	    **Ignorada en el .gitignore**
-│ │ │ │ ├── local.py		    <--- Configuraciones para desarrollo local
-│ │ │ │ ├── production.py	    <--- Configuraciones para produccion
-│ │ │ │ ├── settings.py		    <--- Configuraciones base
+│ │ │ │ ├── local.py		    
+│ │ │ │ ├── production.py	    
+│ │ │ │ ├── settings.py		    
 │ │ │ │ └── ...
 │ │ │ ├── __init__.py
 │ │ │ ├── asgi.py
 │ │ │ ├── settings.py
 │ │ │ ├── urls.py
+│ │ │ ├── views.py
 │ │ │ ├── wsgi.py
 │ │ │ └── ...
-│ │ ├── media/				    <--- Archivos multimedia - **Podria ser ignorada en el .gitignore**
+│ │ ├── media/				    <--- Archivos multimedia - **gitignore
 │ │ │ ├── post/
-│ │ │ │ ├── post_default.jpeg
+│ │ │ │ ├──cover/
+│ │ │ │ └── ...
+│ │ │ │ ├──default/
+│ │ │ │ | ├──post_default.jpeg
 │ │ │ │ └── ...
 │ │ │ ├── user/
-│ │ │ │ ├── user_default.png
+│ │ │ │ ├──avatar/
+│ │ │ │ └── ...
+│ │ │ │ ├──default/
+│ │ │ │ | ├──user_default.jpeg
 │ │ │ │ └── ...
 │ │ │ └── ...
-│ │ ├── static/				    <--- Archivos estáticos
+│ │ ├── static/				  
 │ │ │ ├── assets/
 │ │ │ │ ├── img/
-│ │ │ │ ├── svg/
-│ │ │ │ ├── favicon.ico
 │ │ │ │ └── ...
 │ │ │ ├── css/
 │ │ │ │ ├── style.css
 │ │ │ │ └── ...
 │ │ │ ├── js/
 │ │ │ │ ├── main.js
+│ │ │ │ └── tailwind.config.js
 │ │ │ │ └── ...
 │ │ │ └── ...
-│ │ ├── templates/			    <--- Archivos templates
+│ │ ├── templates/			  
 │ │ │ ├── auth/
 │ │ │ │ ├── auth_login.html
 │ │ │ │ ├── auth_register.html
@@ -70,27 +88,42 @@ ESTRUCTURA DEL PROYECTO
 │ │ │ │ ├── internal_error.html
 │ │ │ │ └── ...
 │ │ │ ├── Components/
-│ │ │ │ ├── base.html
-│ │ │ │ ├── footer.html
-│ │ │ │ ├── header.html
+│ │ │ │ ├── commons/
+│ │ │ │ |  ├── footer.html
+│ │ │ │ |  ├── header.html
+│ │ │ │ └── ...
+│ │ │ │ ├── ui/
+│ │ │ │ |  ├── navbar.html
+│ │ │ │ └── ...
+│ │ │ ├── contacto/
+│ │ │ │ ├── contacto.html
+│ │ │ │ └── ...
+│ │ │ ├── includes/
+│ │ │ │ └── ...
+│ │ │ ├── layout/
+│ │ │ │ ├── auth_layout.html
+│ │ │ │ ├── base_layout.html
+│ │ │ │ ├── general_layout.html
+│ │ │ │ ├── post_layout.html
 │ │ │ │ └── ...
 │ │ │ ├── post/
 │ │ │ │ ├── post_delete.html
 │ │ │ │ ├── post_detail.html
 │ │ │ │ ├── post_list.html
-│ │ │ │ ├── post_new.html
+│ │ │ │ ├── post_create.html
 │ │ │ │ ├── post_update.html
 │ │ │ │ └── ...
 │ │ │ ├── user/
 │ │ │ │ ├── user_profile.html
-│ │ │ │ ├── user_update.html
 │ │ │ │ └── ...
+│ │ │ ├── about.html
+│ │ │ └── ...
 │ │ │ ├── index.html
 │ │ │ └── ...
-│ │ ├── db.sqlite3			    <--- Base de datos - **Ignorada en el .gitignore**
+│ │ ├── db.sqlite			    <--- Base de datos - **gitignore
 │ │ ├── manage.py
 │ │ └── ...
-| ├── entorno/						<--- Carpeta del entorno - **Ignorada en el .gitignore**
+| ├── entorno/						<--- Carpeta del entorno - **gitignore
 | │ ├── Scripts/
 | │ │ ├── activate.bat
 | │ │ ├── deactivate.bat
@@ -99,7 +132,7 @@ ESTRUCTURA DEL PROYECTO
 │ ├── .env
 │ ├── .gitignore
 │ ├── README.md				    <--- Archivo README.md - Describe el proyecto
-│ ├── requeriments.txt		    <--- Archivo requeriments.txt - Enlista los paquetes
+│ ├── requeriments.txt		   
 | └── ...
 └── ...
 ```
