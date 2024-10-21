@@ -1,21 +1,30 @@
 <nav>
  <ul class="flex gap-4 ">
+    <li><a href="{% url 'home' %}" class="text-white hover:text-blue-200 font-bold">Inicio</a></li> 
+    <li><a href="{% url 'about' %}" class="ml-2 text-white hover:text-gray-200 font-bold">Acerca de Nosotros</a></li>
+    <li><a href="{% url 'post:post_list' %}" class="ml-2 text-white hover:text-gray-200 font-bold">Posts</a></li>
+    
     {% if user.is_authenticated %}
-      {% if user.is_collaborator %}
-       <button class= "text-black bg-orange-500 rounded-lg" href="{% url 'post:post_create' %}">Publicar</a></li>
-      {% endif %}
-      <li><a class="text-white" href="{% url 'user:user_profile' %}">Perfil</a></li>
+       <strong> {{ user.alias }} </strong>
+        <!-- Mostrar solo si el usuario está -->
+        {% if user.is_superuser or user.is_admin or user.is_collaborator %}
+         <li><a class= "text-white text-md font-bold rounded-lg py-1 px-2" href="{% url 'post:post_create' %}">Publicar</a></li>
+        {% endif %}
+        <!-- Mostrar opciones si el usuario está autenticado --> 
+        <li><a class="text-white font-bold" href="{% url 'user:user_profile' %}">Perfil</a></li>
       <li>
         <form method="post" action="{% url 'user:auth_logout' %}">
           {% csrf_token %}
-          <button class="bg-red-500 text-black rounded-lg" type="submit">Cerrar sesión</button>
+          <button class="bg-white text-black rounded-lg" type="submit">Cerrar sesión</button>
        </form>
      </li>
     {% else %}
-      <li><a class="text-white" href="{% url 'user:auth_login' %}">Iniciar sesión</a></li>
-      <button class= "bg-white text-black text-md font-bold rounded-lg py-1 px-2" href="{% url 'user:auth_register' %}">Registrate</button>
+     <!-- Mostrar opciones si el usuario NO está autenticado -->
+      <li><a class="bg-white text-black text-md font-bold rounded-lg py-1 px-2" href="{% url 'user:auth_login' %}">Iniciar sesión</a></li>
+      <li><a class= "bg-white text-black text-md font-bold rounded-lg py-1 px-2" href="{% url 'user:auth_register' %}">Registrate</a></li>
    {% endif %}
   </ul>
 </nav>
-
+           
+        
 

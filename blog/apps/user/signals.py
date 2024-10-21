@@ -5,6 +5,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.dispatch import receiver
 from apps.post.models import Post, Comment
 
+
 #posterior a registrarse el usuario se va a ejecutar esta funcion
 @receiver(post_save, sender=User)
 #decoradores son funciones que rodean mi funcion que esta definida por debajo
@@ -30,7 +31,6 @@ def create_groups_and_permissions(sender, instance, created, **kwargs):
                 add_post_permission,
                 change_post_permission,
                 delete_post_permission,
-                # TODO: tengo que ver que permisos voy a dejar
                 view_comment_permission,
                 add_comment_permission,
                 change_comment_permission,
@@ -43,7 +43,6 @@ def create_groups_and_permissions(sender, instance, created, **kwargs):
                 add_post_permission,
                 change_post_permission,
                 delete_post_permission,
-                # TODO: tengo que ver que permisos voy a dejar
                 view_comment_permission,
                 add_comment_permission,
                 change_comment_permission,

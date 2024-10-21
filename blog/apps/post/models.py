@@ -16,7 +16,7 @@ class Post(models.Model):
    creation_date = models.DateTimeField(default=timezone.now)
    modification_date = models.DateTimeField(auto_now=True)
    allow_comments = models.BooleanField(default=True)
-   category= models.ForeignKey('Category', on_delete= models.CASCADE, null= True, blank= True, related_name= "posts")
+   category= models.ForeignKey('Category', on_delete= models.CASCADE, null= True, blank= True, related_name="posts")
 
    #str es como --init--
    def __str__(self):
@@ -86,7 +86,7 @@ class Comment(models.Model):
 class Category(models.Model):
    id=models.UUIDField(primary_key=True, default=uuid.uuid4,editable=False)
    title=models.CharField(max_length=200)
-   post=models.ForeignKey(Post, on_delete=models.CASCADE,related_name="category_posts")
+   post=models.ForeignKey(Post,on_delete=models.CASCADE,null=True,related_name="category_posts")
 
    def __str__(self):
       return self.title

@@ -5,8 +5,7 @@
 
 {% load static %}
 {% block content %}
-
- <div class=" flex flex-col w-full">
+ <div class="flex flex-col w-full">
    {% if active_images %}
      <div class="grid grid-cols-1">
        {% for img in active_images %}
@@ -22,7 +21,11 @@
    <h3 class= "ml-4 mt-6 text-2xl uppercase font-bold border-b border-black">{{ post.title }}</h3>
    <div class= "flex justify start ml-4 mt-4 items-center gap-2">
      <img class= "icon-rec w-8 h-8" src= "{% static 'assets\reloj.png' %}" alt= "Tiempo de preparacion"/><span class="whitespace-nowrap">{{ post.time }}</span>
-     <img class= "icon-rec w-8 h-8" src= "{% static 'assets\categorias.png' %}" alt="Categoria"/>{{post.category}}
+     {% if post.category %}
+       <img class= "icon-rec w-8 h-8" src= "{% static 'assets\categorias.png' %}" alt="Categoria"/>{{ post.category.title }}
+     {% else %}
+       <img class= "icon-rec w-8 h-8" src= "{% static 'assets\categorias.png' %}" alt="Categoria"/>Categoría: "Sin definir"   
+     {% endif %}
    </div>
 
    <div class="ml-4 mt-12">
@@ -34,18 +37,22 @@
    <p>Publicado por: <strong class="font-bold">{{ post.author.username }}</strong></p>
    <p class="ml-2">Fecha de publicación: {{ post.creation_date }}</p>
  </div>
- {% if user.is_superuser or user.is_admin or user.is_collaborator %}
- <div class="flex justify-center items-center mt-4 gap-4">
-   <a 
-     class="bg-blue-500 h-6 text-white px-2 rounded-lg text-sm" 
-     href="{% url 'post:post_update' slug=post.slug %}"
-   >Editar post</a>
-   <a 
-     class="bg-red-500 h-6 text-white px-2 rounded-lg text-sm" 
-     href="{% url 'post:post_delete' slug=post.slug %}"
-   >Eliminar post</a>
-  </div>
- {% endif %}
+   
+  
+  {% if user.is_superuser or user.is_admin or user.is_collaborator %}
+    <div class="flex justify-center items-center mt-4 gap-4">
+      <a 
+        class="bg-red-500 h-6 text-white px-2 rounded-lg text-sm" 
+        href="{% url 'post:post_delete' slug=post.slug %}"
+      >Eliminar post</a>
+      {% if user == post.author %}
+        <a 
+          class="bg-blue-500 h-6 text-white px-2 rounded-lg text-sm" 
+          href="{% url 'post:post_update' slug=post.slug %}"
+        >Editar post</a>
+      {% endif %}
+   </div>       
+  {% endif %}
 
 
 
@@ -61,16 +68,28 @@
            <button class= "text-blue-500" type="submit">Actualizar</button>
            <a href="{% url 'post:post_detail' post.slug %}" class="text-red-500">Cancelar</a>
          </form>
-        {% else %}
-          <li class= "mt-4 mb-8 border-t border-gray-600">
-           <p class= "mt-2 ml-2 bg-gray-600 inline-block rounded">{{ comment.content }}</p>
-           <p class= "mt-2 ml-2 text-xs">Escrito por {{ comment.author.username }} 
-             <a href= "?edit_comment={{comment.id}}" class="text-blue-500">Editar</a>
-           </p>
-         </li>
-       {% endif %}
-        
-      {% endfor %}
+        {% elif comment.id == deleting_comment_id %}
+            <!-- Formulario de confirmación de eliminación --> 
+            <form method="post" action="{% url 'post:comment_delete' comment.id %}">
+             {% csrf_token %}
+             <p>¿Estás seguro de que deseas eliminar este comentario?</p>
+             <button type="submit" class="text-blue-500">Confirmar</button>
+             <a href="{% url 'post:post_detail' post.slug %}" class="text-red-500">Cancelar</a>
+            </form>
+            {% else %} 
+             <li class= "mt-4 mb-8 border-t border-gray-600">
+                <p class= "mt-2 ml-2 bg-gray-600 inline-block rounded">{{ comment.content }}</p>
+                <p class= "mt-2 ml-2 text-xs">Escrito por {{ comment.author.username }} </p>
+              
+               {% if comment.author == user %}
+                 <a href="?edit_comment={{ comment.id }}" class="text-blue-500">Editar</a>
+                 <a href="?delete_comment={{ comment.id }}" class="text-red-500">Eliminar</a>
+               {% elif user.is_collaborator and post.author == user and not comment.author.is_admin and not comment.author.is_superuser or user.is_admin or user.is_superuser %}
+                 <a href="?delete_comment={{ comment.id }}" class="text-red-500">Eliminar</a>
+               {% endif %}
+             </li>
+           {% endif %}
+       {% endfor %}
     </ul>
   {% endif %}
 
@@ -94,11 +113,3 @@
 
 {% endblock content %}
 
-{% comment %}
-
-COLOCAR UN CONDICIONAL: SI SOS USUARIO REGISTRADO/COLABORADOR MOSTRAR BOTONES, SI NO, NO MOSTRAR. Y SOLO EL AUTOR PUEDE EDITAR SU POST
-EL ADMIN SI PUEDE VER LOS BOTONES
-SI SOS VISITANTE NO VES NADA
-SI SOS U.REGISTRADO PODES COMENTAR
-
-</html> {% endcomment %}

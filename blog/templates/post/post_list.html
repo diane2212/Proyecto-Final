@@ -11,7 +11,7 @@
        <div class="mt-4 ml-6 w-full w-auto">
           {{ filter_form.search_query }}
           {{ filter_form.order_by }}
-          {{ filter_form.category }}
+           {{ filter_form.category }}
           <button type="submit" class="ml-6 mt-4 px-2 h-6 bg-blue-500 text-white rounded-lg">Buscar</button>
         </div>
     </form>
@@ -19,25 +19,25 @@
        {% for post in object_list %}
           <div class= "mt-8 ml-4 bg-gray-300 rounded-2xl p-6">
              <h3 class= "text-2x1 uppercase font-bold border-b border-black">{{ post.title }}</h3>
-             <div>
-                {% for img in post.images.all %}
-                   <img src="{{ img.img.url }}" alt="Imagen del post" class="w-1/3 rounded-lg"/>
-                {% endfor %}
-               </div>
              <p>Fecha de publicacion: {{ post.creation_date }}</h3>
              <p>Publicado por: <strong class="font-bold">{{ post.author }}</strong></h3>
-             {% if user.is_superuser or user.is_admin or user.is_collaborator %}
-                <div class="flex gap-2 mt-8">
+              {% if post.category  %}
+                <p>Categoría: {{ post.category.title }} </p>
+              {% else %}
+                <p> Categoría: "Sin definir" </p>   
+              {% endif %}
+               <div class="flex gap-2 mt-8">
                   <a 
                      class="bg-blue-500 text-white text-xs p-2 rounded-lg" 
                      href="{% url 'post:post_detail' slug=post.slug %}"
                   >Ver post</a>
-                  <a 
-                     class="bg-red-500 text-white text-xs p-2 rounded-lg"
-                     href="{% url 'post:post_delete' slug=post.slug %}"
-                  >Eliminar Post</a>
-                </div>
-             {% endif %}
+                  {% if user.is_superuser or user.is_admin or user.is_collaborator %}
+                    <a 
+                       class="bg-red-500 text-white text-xs p-2 rounded-lg"
+                       href="{% url 'post:post_delete' slug=post.slug %}"
+                    >Eliminar Post</a>
+                  {% endif %}
+               </div>
           </div>
         {% endfor %}
       </div>

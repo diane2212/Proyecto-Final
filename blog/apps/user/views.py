@@ -5,6 +5,10 @@ from django.views.generic import TemplateView, CreateView
 from apps.user.forms import RegisterForm, LoginForm
 from django.contrib.auth.models import Group
 from django.urls import reverse_lazy
+from django.contrib.auth import login
+
+def home(request):
+    return render(request, 'index.html')  
 
 class UserProfileView(TemplateView):
     template_name = 'user/user_profile.html'
@@ -12,7 +16,8 @@ class UserProfileView(TemplateView):
 class RegisterView(CreateView):
    template_name = 'auth/auth_register.html'
    form_class = RegisterForm
-   success_url = reverse_lazy('home') # Redirige al home una vez registrado
+   success_url= reverse_lazy('home')
+   
  
    def form_valid(self, form):
      # Llama a la función form_valid de la clase padre y guarda el usuario
@@ -25,7 +30,10 @@ class RegisterView(CreateView):
      # En caso de ser necesario se le puede asignar explicitamente los permisos del grupo al usuario
      # for permission in registered_group.permissions.all():
      # self.object.user_permissions.add(permission)
+      login(self.request, self.object)
+   
       return response
+   
 #una view para iniciar sesion
 class UserLoginView(LoginViewDjango):
    template_name = 'auth/auth_login.html'
@@ -41,5 +49,8 @@ class LogoutView(LogoutViewDjango):
      return reverse_lazy('home')
 #registro de nuevos usuarios
 class UserSignupView(TemplateView):
-    template_name = "user/user_signup.html"
-    pass
+    template_name = "auth/auth_register.html"
+    authentication_form= RegisterForm
+    
+    def get_success_url(self):
+      return reverse_lazy('home')

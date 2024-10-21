@@ -2,12 +2,6 @@ from django import forms
 from apps.post.models import Post, PostImage, Comment, Category
 
 
-#El formulario PostForm hereda de forms.ModelForm y nos sirve de base tanto para crear como para
-#actualizar un post.
-#Por eso luego definimos un formulario NewPostForm que hereda de PostForm y agrega un campo
-#image de tipo forms.ImageField. Además, definimos un método save que guarda la imagen en la
-#base de datos.
-
 
 class PostForm(forms.ModelForm):
   class Meta:
@@ -43,8 +37,8 @@ class NewPostForm(PostForm):
        
        if commit:
           post.save()
-          if self.cleaned_data["image"] :
-             PostImage.objects.create(post=post, image=self.cleaned_data["image"])
+       if self.cleaned_data["image"] :
+          PostImage.objects.create(post=post, image=self.cleaned_data["image"])
        return post
     
 class UpdatePostForm(PostForm):
@@ -69,11 +63,11 @@ class UpdatePostForm(PostForm):
          post.save()
          if self.cleaned_data['image']: # Si el usuario sube una nueva imagen
             PostImage.objects.create(post=post, image=self.cleaned_data['image'])
-         if self.active_images: # Si hay imágenes activas y se quiere mantener alguna
+            if self.active_images: # Si hay imágenes activas y se quiere mantener alguna
         
-            for image in self.active_images:
-                if not self.cleaned_data.get(f"keep_image_{image.id}", True):
-                  image.delete() # Eliminar la imagen si el usuario no la quiere mantener, checkboxes desmarcados
+               for image in self.active_images:
+                   if not self.cleaned_data.get(f"keep_image_{image.id}", True):
+                     image.delete() # Eliminar la imagen si el usuario no la quiere mantener, checkboxes desmarcados
      return post
 
 
@@ -108,16 +102,7 @@ class PostFilterForm(forms.Form):
       ),
        widget=forms.Select(attrs={'class':'bg-gray-100' 'w-full' 'p-2',  'style': 'border-radius: 10px' })
    )
-   category= forms.ChoiceField(required= False,
-      choices=(
-       ('', 'Filtrar por'),
-       ('category', 'Tragos Directos'),
-       ('category', 'Tragos Batidos'),
-       ('category', 'Tragos Refrescados'),
-       ('category', 'Tragos Licuados'),
-       ('category', 'Tragos Macerados'),
-       ('category', 'Tragos Aperitivos'),
-       ('category', 'Energizantes'),
-      ),
-       widget=forms.Select(attrs={'class':'bg-gray-100' 'w-full' 'p-2',  'style': 'border-radius: 10px' })
+   
+   category= forms.ModelChoiceField(queryset=Category.objects.all(),required= False,empty_label= 'Filtrar por',
+                                    widget=forms.Select(attrs={'class':'bg-gray-100' 'w-full' 'p-2',  'style': 'border-radius: 10px', 'onchange':'this.form.submit();' })
    )  

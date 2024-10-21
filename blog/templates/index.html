@@ -7,7 +7,7 @@
 
 {% block content %}
   <div class= "flex justify-start ">
-     <h1 class=" mt-72 ml-12 text-white text-2xl font-semibold">aca iria algo<br>
+     <h1 class=" mt-72 ml-10 text-white text-6xl">El arte de Mezclar<br>
          <p class=" text-gray-500 text-base font-style:italic ml-4 mt-4">La preparacion de un coctel es un ritual que requiere<br>atención al detalle y amor por la perfeccion.
          <br>Cada movimiento, cada ingrediente y cada técnica <br>son parte dede un proceso que eleva<br> la mixología a un arte...</p>
      </h1>
@@ -22,33 +22,34 @@
                  </div>
                  <h5 class=" text-white text-2xl md.text-3xl font-medium mt-3">Laguna Azul</h5>
                  <p class="text-slate-500 text-sm mt-3">Laguna Azul es un coctel perfecto para los amantes de sabores dulces y refrescantes. . .</p>
-                 <a href= "{% url 'post:post_list' %}" class="text-center bg-blue-500 text-white py-2 rounded-lg font-semibold mt-4">Ver mas</a>
                 </div>
             </div>
 
-            <div class="rounded-xl shadow-lg bg-black bg-opacity-50 p-4">
+            <div class="rounded-xl shadow-lg bg-black bg-opacity-80 p-4">
               <div class="p-5 flex flex-col">
                  <div class="rounded-xl overflow-hidden">
                       <img src= "static\assets\Manhattan.png" alt="card-2">
                  </div>
                  <h5 class=" text-white text-2xl md.text-3xl font-medium mt-3">Manhattan</h5>
                  <p class="text-slate-500 text-sm mt-3">El Manhattan es un cóctel que seduce con su complejidad. El whisky proporciona un fondo robusto. . . </p>
-                 <a href="#" class="text-center bg-blue-500 text-white py-2 rounded-lg font-semibold mt-4">Ver mas</a>
               </div>
          </div>
 
-         <div class="rounded-xl shadow-lg bg-black bg-opacity-50 p-4">
+         <div class="rounded-xl shadow-lg bg-black bg-opacity-80 p-4">
              <div class="p-5 flex flex-col ">
                  <div class="rounded-xl overflow-hidden">
                      <img src= "static\assets\PieldeIguana.jpg" alt="card-3">
                  </div>
                  <h5 class=" text-white text-2xl md.text-3xl font-medium mt-3">Piel de Iguana</h5>
                  <p class="text-slate-500 text-sm mt-3">Con su sabor exotico y refrescante es el equilibrio perfecto entre lo dulce y lo citrico . . .</p>
-                 <a href="#" class="text-center bg-blue-500 text-white py-2 rounded-lg font-semibold mt-4">Ver mas</a>
               </div>
           </div>
       </div>
- </div>            
+ </div> 
+   <a href= "{% url 'post:post_list' %}" class="flex flex-col items-center justify-center mx-auto bg-gray-500 py-2 rounded-lg font-semibold mt-4">Ver mas</a>
+   <br>
+   <br>
+   <br>
 {% endblock content %}
 
 

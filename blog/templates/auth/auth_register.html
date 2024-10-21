@@ -9,25 +9,17 @@
   </div>
   <h1 class="mx-auto mt-6 mb-3 text-4xl font-bold">Registrate</h1>
   <form class="flex flex-col max-w-[400px] gap-4" method="post" enctype="multipart/form-data">
-    {% csrf_token %} 
-    <div class= "mt-8 flex flex-col gap-8">
-      <p class= "mx-auto mb-2 font-bold text-md ">{{ form.username.label_tag }} {{ form.username }}</p>
-      <p class="mx-auto mb-2  font-bold  text-md">{{ form.password.label_tag }}{{ form.password }}</p>
-      <p class="mx-auto mb-2 font-bold  text-md">{{ form.alias.label_tag }}{{ form.alias }}</p>
-      <p class="mx-auto mb-2  font-bold text-md">{{ form.email.label_tag }}{{ form.email}}</p>
-      <p>Elige un avatar:<input class= "mt-1" type="file" name="images" multiple /></p>
-   </div>
-    <div class="mt-4 flex justify-between w-full py-4">
+    {% csrf_token %}  {{ form.as_p }}
+     <div class="mt-4 flex justify-between w-full py-4">
        <div class="mr-24">
          <input type="checkbox" name="check" id="check" class="mr-2"/>
          <span class="text-md">Recordarme</span>
-        </div>
-      </div> 
-   <button 
-      type="submit" 
-      class=" mt-8 w-full bg-black text-white p-2 rounded-lg mb-6"
-      href= "{% url 'user:user_signup' %}">Confirmar
-   </button>
+       </div>
+     </div> 
+     <button 
+        type="submit" 
+        class=" mt-8 w-full bg-black text-white p-2 rounded-lg mb-6">Confirmar
+     </button>
   </form>
 </div>
 {% endblock content %}

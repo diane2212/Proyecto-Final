@@ -17,13 +17,15 @@ Including another URLconf
 from django.contrib import admin 
 from django.urls import path, include 
 from django.conf import settings
-from blog.views import IndexView #desde el archivo blog-views importar la clase indexview
+from blog.views import IndexView, AboutView #desde el archivo blog-views importar la clase indexview
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", IndexView.as_view(), name="home"), #avisar a django que hay una vista basada en clases
+    path("about-us/", AboutView.as_view(), name="about"),
     path("", include("apps.post.urls")),
     path("", include("apps.user.urls")),
+     path("", include("apps.contacto.urls")),
 ]
 
 if settings.DEBUG:
